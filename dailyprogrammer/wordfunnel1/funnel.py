@@ -13,6 +13,11 @@ class WordFunnel:
 
     @staticmethod
     def is_funnel(first, second):
+        '''
+        Determine if the second word can be made by removing one letter
+        from the first word without changing the order of the letters
+        (Word Funnel, part 1)
+        '''
         if len(second) >= len(first):
             return False
 
@@ -26,11 +31,29 @@ class WordFunnel:
         return False
     
     def find_list(self, given):
+        '''
+        Determine list of words that can be made by removing one letter
+        from the given string. (Word Funnel, part 1, bonus 1)
+        '''
         result = set()
         for word in self.wordlist:
             if self.is_funnel(given, word):
                 result.add(word)
         return list(result)
+    
+    def funnel_length(self, given):
+        '''
+        Determine funnel lengths (Word Funnel challenge, part 2)
+        '''
+        next_level = self.find_list(given)
+        
+        if len(next_level) == 0:
+            return 1
+        else:
+            lengths = []
+            for w in next_level:
+                lengths.append(self.funnel_length(w))
+            return 1 + max(lengths)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
